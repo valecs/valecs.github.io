@@ -1,0 +1,17 @@
+## To access the whole of the gcc-6.2 suite of compilers, add the
+## following lines to your $HOME/.bash_profile:
+
+PATH=/stratt/vale/local/bin:/stratt/vale/toor/gcc62/bin:/stratt/vale/toor/bin:$PATH
+export PATH
+
+LD_LIBRARY_PATH=/stratt/vale/toor/lib:/stratt/vale/toor/lib64:/stratt/vale/toor/gcc62/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+## now gcc-6.2, g++-6.2, etc will be available in your path
+
+## When compiling, use the following flags:
+# -I/stratt/vale/toor/include -L/stratt/vale/toor/lib
+
+## When submitting jobs, you may need to add the following flag to
+## qsub or to your submit script:
+# -v LD_LIBRARY_PATH="/stratt/vale/toor/lib:/stratt/vale/toor/gcc62/lib64"

@@ -1,0 +1,313 @@
+\documentclass[letterpaper,12pt]{article}
+
+\usepackage{times}
+\usepackage[margin=1in]{geometry}
+\usepackage[]{hyperref} % for links in/to references
+
+\usepackage{datetime} % gives \currenttime
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{bbm}% for \mathbbm % blackboard bold
+\usepackage{undertilde}
+%\cancel{}, in package cancel, gives a nice way to cross out math
+
+%\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\trans}[1]{{#1}^{\mathsf{T}}}
+\newcommand{\mat}[1]{\;\textrm{\textbf{#1}}\,}
+\newcommand{\scmat}[1]{\vec{\utilde{#1}}}
+\newcommand{\cvec}[1]{\utilde{#1}}
+\newcommand{\svec}[1]{\vec{#1}}
+
+\newcommand{\refeq}[1]{eq. \ref{eqn:#1}}
+\newcommand{\laeq}[1]{\label{eqn:#1}}
+
+\title{Center of Mass Translation in the Geodesic}
+\date{Modified: \today\ at \currenttime}
+\author{D. Vale Cofer-Shabica}
+
+\begin{document}
+
+\maketitle
+
+\abstract{The equation for escape steps (3.3) in Wang and Stratt's 2007 paper treating geodesics in the potential energy landscape ensemble \cite{wang:2007:geodesics} erroneously introduces center of mass translation in systems with heterogeneous masses. I explore the ramifications of this and propose a modest correction to their equation.}
+
+\section{Notation}
+In the analysis of molecular systems with $N$ atoms in $d$ spatial dimensions, it is sometimes desirable to picture the system as specified by a single vector in the $Nd$-dimensional configuration space and at other times as $N$ spatial vectors. I use the following definitions to transition between representations. 
+
+\begin{itemize}
+\item Let $\cvec{R} \in \mathbbm{R}^{dN}$ be the column vector representing the total configuration of the system.
+\item Let $\svec{x}_{\alpha} \in \mathbbm{R}^{d}$ be the column vector specifying the spatial coordinates of the $\alpha$th atom.
+\item Let $m_{\alpha}$ be the mass of the $\alpha$th component.
+\end{itemize}
+
+We can extract spatial vectors from the configuration space vector by defining the $d \times dN$ matrix, $\scmat{C}_{\alpha}$ such that
+\begin{equation}
+\svec{x}_{\alpha} = \scmat{C}_{\alpha} \cdot \cvec{R} \; .
+\end{equation}
+For instance, in 3 spatial dimensions,
+\[
+\scmat{C}_{1}=
+\begin{bmatrix}
+1 &   &   & & &\\
+  & 1 &   & & &\\
+  &   & 1 & & &\ldots
+\end{bmatrix} \; .
+\]
+In general,
+\begin{equation}
+\left(\scmat{C}_{\alpha} \right)_{1,\beta} = \delta_{\alpha,\beta} \svec{1} \quad , \quad \beta = 1 \ldots N
+\end{equation}
+Where $\svec{1}$ is the $d \times d$ unit matrix.
+In the other direction we have:
+\begin{equation}\laeq{constructR}
+\cvec{R} = \sum_{\alpha = 1}^{N} \trans{\scmat{C}}_{\alpha} \cdot \svec{x}_{\alpha} \; .
+\end{equation}
+
+\paragraph{We compute the center of mass} \hspace{-1em} of the system as follows:
+\begin{equation}\laeq{computeCM}
+\begin{aligned}
+\svec{x}_{cm} &= \frac{1}{M_{total}}\sum_{\alpha = 1}^{N} m_{\alpha} \svec{x}_{\alpha} \\
+ &= \frac{1}{M_{total}} \sum_{\alpha = 1}^{N} m_{\alpha} \scmat{C}_{\alpha} \cdot \cvec{R} \\
+ &= \left( \frac{1}{M_{total}} \sum_{\alpha = 1}^{N} m_{\alpha} \scmat{C}_{\alpha} \right) \cdot \cvec{R} \\
+ &\equiv \scmat{M} \cdot \cvec{R}
+\end{aligned}
+\end{equation}
+where $M_{total}=\sum_{\alpha = 1}^{N} m_{\alpha}$ is the total mass of the system and $\scmat{M}$ is a $d \times d N$ dimensional, block-diagonal matrix composed of $N$ ordered, $d \times d$ blocks with $m_{\alpha}$ ($\alpha = 1 \ldots N $) along the diagonals.
+\begin{equation} \laeq{mComponents}
+\scmat{M}_{1,\alpha} = \frac{m_{\alpha}}{M_{total}} \svec{1}\quad , \quad \alpha = 1 \ldots N
+\end{equation}
+
+\section{Should the Center of Mass be Conserved?} \label{sec:shouldConserveCM}
+While our intuition is that center of mass translation \emph{should} increase the length of a path between two regions of configuration space which have the same center of mass, proofs are superior to intuition\footnote{\emph{Govind Menon}, personal communication. He was actually a lot more disparaging about intuition in the absence of proof.}. This proof follows that proposed by RMS.
+
+The kinematic length is defined as per \cite{wang:2007:geodesics}:
+\begin{equation}\label{eqn:klen}
+\ell = \int d\tau\sqrt{2 T(\tau)}
+\end{equation}
+where $T(\tau)$ is the kinetic energy as a function of progress along the path, defined in the usual way, as:
+\begin{equation}
+2T(\tau) = \sum_{\alpha}^{N} m_{\alpha} \left( \frac{d\svec{x}_{\alpha}}{d\tau} \right)^2 \; .
+\end{equation}
+Discretizing the integral in \refeq{klen} gives the contribution from a single small step,
+\begin{equation} \laeq{dklen}
+\Delta \ell = \sqrt{\sum_{\alpha}^{N} m_{\alpha} \Delta \svec{x}_{\alpha}^{\,2}}
+\end{equation}
+where $\Delta \svec{x}_{\alpha}$ is the displacement of the $\alpha$th center in a time $\Delta \tau$. Suppose $\Delta \svec{x}_{\alpha}$ is decomposed into 2 components:
+\begin{equation} \laeq{xparts}
+\Delta \svec{x}_{\alpha} = \Delta \svec{x}_{\alpha}^{\,0} + \Delta \svec{x}
+\end{equation}
+where $\Delta \svec{x}$ corresponds to net center of mass translation and the $\left\{ \Delta \svec{x}_{\alpha}^{\,0} \right\}$ preserve the center of mass. That is:
+\begin{equation} \laeq{xpartcm}
+\svec{0} = \sum_{\alpha}^N m_{\alpha} \Delta \svec{x}_{\alpha}^{\,0} \; .
+\end{equation}
+
+Inserting \refeq{xparts} into \refeq{dklen} yields:
+\begin{equation}
+\begin{aligned}
+\Delta \ell &= \sqrt{\sum_{\alpha}^{N} m_{\alpha} \left(\Delta \svec{x}_{\alpha}^{\,0} + \Delta \svec{x} \right)^{2}} \\
+&= \sqrt{\sum_{\alpha}^{N} m_{\alpha} \Delta \svec{x}_{\alpha}^{\,0^{2}} + \Delta \svec{x}^{\,2}\sum_{\alpha}^{N} m_{\alpha} + \left(\sum_{\alpha}^{N} m_{\alpha} \Delta \svec{x}_{\alpha}^{\,0} \right) \cdot \svec{x}} \\
+&=  \sqrt{\sum_{\alpha}^{N} m_{\alpha} \Delta \svec{x}_{\alpha}^{\,0^{2}} + M\Delta \svec{x}^{\,2}}
+\end{aligned}
+\end{equation}
+where the last term of the middle line is 0 by \refeq{xpartcm}. Identifying, 
+\begin{equation}
+\Delta {\ell}_{0} = \sqrt{\sum_{\alpha}^{N} m_{\alpha} \Delta \svec{x}_{\alpha}^{\,0^2}} \; ,
+\end{equation}
+as the length in the absence of center of mass translation, we have:
+\begin{equation}
+\Delta \ell = \sqrt{\Delta {\ell}_{0}^{2} + M\Delta \svec{x}^{\,2}} \;\; > \; \Delta {\ell}_{0} \; .
+\end{equation}
+Thus completing the proof that net center of mass translation increases the kinematic length.
+
+\section{Is the Center of Mass Conserved?}
+Having established that to be ``shortest'', paths through configuration space must preserve the center of mass in real space, I turn my attention to the algorithm presented in \cite{wang:2007:geodesics} to compute geodesics in the potential energy landscape ensemble. There are two components of the algorithm,  which treat ``free'' and ``escape'' steps respectively. The following sections analyze each in turn.
+
+\subsection{Free Steps}
+Equation (3.1) of \cite{wang:2007:geodesics} gives the following expression for computing free (straight-line) steps between the current position, $\cvec{R}^{t}$, and the target, $\cvec{R}^{f}$:
+\begin{equation}
+\cvec{R}^{t+1} = \cvec{R}^{t} + \delta R \frac{\cvec{R}^{f} - \cvec{R}^{t}}{\left|\cvec{R}^{f} - \cvec{R}^{t} \right|} \; .
+\end{equation}
+Collapsing the scalars into the constant $\gamma$ yields:
+\begin{equation} \laeq{computeFreeStep}
+\cvec{R}^{t+1} = \cvec{R}^{t} + \gamma \left(\cvec{R}^{f} - \cvec{R}^{t}\right) \; .
+\end{equation}
+We can impose the requirement that our boundaries have the same center of mass (recall \refeq{computeCM}) by demanding:
+\begin{equation} \laeq{boundaries}
+\scmat{M} \cdot \cvec{R}^{0} =\scmat{M} \cdot \cvec{R}^{f} \; .
+\end{equation}
+We then ask if $\cvec{R}^{1}$, computed by \refeq{computeFreeStep} will have the same center of mass as  $\cvec{R}^{0}$.
+\begin{equation}
+\begin{aligned}
+\scmat{M} \cdot \cvec{R}^{0} &\stackrel{?}{=} \scmat{M} \cdot \cvec{R}^{1}\\
+\scmat{M} \cdot \cvec{R}^{0} &= \scmat{M} \cdot \left[ \cvec{R}^{0} + \gamma \left(\cvec{R}^{f} - \cvec{R}^{0}\right) \right]\\
+\end{aligned}
+\end{equation}
+Canceling the common term and scalar leaves:
+\begin{equation}
+\svec{0} = \scmat{M} \cdot \left(\cvec{R}^{f} - \cvec{R}^{0}\right) \; ,
+\end{equation}
+which is a restatement of the limits on our boundary conditions, \refeq{boundaries}. We prove, therefore, that the first step does not perturb the center of mass. By induction, we conclude:
+\begin{equation}
+\scmat{M} \cdot \cvec{R}^{0} = \scmat{M} \cdot \cvec{R}^{t} = \scmat{M} \cdot \cvec{R}^{f}
+\end{equation}
+for all $t$. And so the center of mass is not perturbed by the free steps of the algorithm.
+
+\subsection{Escape Steps} \label{sec:escapeSteps}
+Turning to the next page of \cite{wang:2007:geodesics} reveals equation (3.3), applied when the system enters a region where the potential is greater than the landscape energy, $V(\cvec{R}) < E_L$. To escape from the forbidden region, a Newton-Raphson root search is conducted by iterating the following expression until the landscape energy criterion is satisfied:
+\begin{equation}\laeq{computeEscapeStepVanilla}
+\cvec{R}^{n+1} = \cvec{R}^{n} - \frac{V(\cvec{R}^{n})-E_L}{\left| \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \right|^2} \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \; .
+\end{equation}
+In the paper, terms appear with $t$ superscripted and $n$ subscripted, but this is unduly cumbersome for the present application. As in the case of the free steps, we collapse all the scalars into a constant term, $\zeta$, leaving:
+\begin{equation}\laeq{computeEscapeStep}
+\cvec{R}^{n+1} = \cvec{R}^{n} - \zeta \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \; .
+\end{equation}
+
+Again our question is, \emph{Does the iterated map preserve the center of mass?} We encode this as (again recall \refeq{computeCM}):
+\begin{equation}
+\begin{aligned}
+\scmat{M} \cdot \cvec{R}^{n} &\stackrel{?}{=} \scmat{M} \cdot \cvec{R}^{n+1} \\
+\scmat{M} \cdot \cvec{R}^{n} &\stackrel{?}{=} \scmat{M} \cdot \left( \cvec{R}^{n} - \zeta \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \right) \; .
+\end{aligned}
+\end{equation}
+Canceling the common term and the scalar leaves us with the following expression:
+\begin{equation} \laeq{yikes}
+\svec{0} \stackrel{?}{=} \scmat{M} \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \; ,
+\end{equation}
+which doesn't look too good. 
+
+\paragraph{Does it Hold?}
+Proving that \refeq{yikes} holds in general would  be quite difficult\footnote{spoiler: it does not.}, but invalidating it requires only one counter-example. All the problems treated by the group's analysis of geodesics to date (\today), involve translationally invariant potentials, so let us confine our attention to a particularly simple one: the pair-potential for two mutually interacting centers in 3 dimensions. The form of our potential is then:
+\begin{equation}
+V = u(\svec{x}_1 - \svec{x}_2) \; .
+\end{equation}
+Taking $\svec{x} = \svec{x}_1 - \svec{x}_2$ We compute the derivative in \refeq{yikes}, arriving at:
+\begin{equation} \laeq{counterDerivative}
+\renewcommand*{\arraystretch}{1.5}
+\cvec{\nabla}V =
+\begin{pmatrix}
++ \frac{\partial u}{\partial \svec{x}} \\
+- \frac{\partial u}{\partial \svec{x}}
+\end{pmatrix} \; .
+\end{equation}
+Inserting \refeq{counterDerivative} into \refeq{yikes} gives
+\begin{equation}
+\begin{aligned}
+\scmat{M} \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} &= m_1 \frac{\partial u}{\partial \svec{x}} - m_2 \frac{\partial u}{\partial \svec{x}} \\
+&= \frac{\partial u}{\partial \svec{x}} \left( m_1 - m_2 \right) \\
+&\stackrel{?}{=} \svec{0} \; ,
+\end{aligned}
+\end{equation}
+Showing that \refeq{yikes} fails for $m_1 \neq m_2$. Therefore Stratt and Wang's equation (3.3) does \emph{not} preserve the center of mass with heterogeneous masses, which erroneously lengthens the path. On the flip-side, \refeq{yikes} \emph{does} hold when the masses are the same. It can be shown that \refeq{yikes} holds for a sum of such pair potentials with equal masses and therefore the group's previous results are safe from this issue.
+
+\section{Enforcing Center of Mass Conservation Analytically} \label{sec:enforceCM}
+Having arrived at the unhappy conclusion that the present method for finding geodesics is inapplicable to systems with heterogeneous masses, I'd like to fix it. In this section, I derive a transformation to displacements in configuration space, which leaves them unmodified except for removing any center of mass translation they would have introduced. In the section that follows, I verify that this general result allows us to construct a suitable replacement for the equation of the escape steps.
+
+Suppose we have a general displacement in configuration space, $\cvec{\Delta R}$, and would like to ensure that it does not include center of mass motion. We therefore seek $\cvec{P}$ such that:
+\begin{equation}
+\svec{0} = \scmat{M} \cdot \left( \cvec{\Delta R} + \cvec{P} \right) \; .
+\end{equation}
+This leads to the under-determined relation:
+\begin{equation} \laeq{underDeterminedP}
+\scmat{M} \cdot \cvec{P} = - \scmat{M} \cdot \cvec{\Delta R} \; .
+\end{equation}
+There are many solutions to this equation (including $\cvec{P} = - \cvec{\Delta R}$, which wouldn't help us much!), but we can choose the following convenient approach to constructing a useful solution: Let $\cvec{P}$ be the configuration space vector which displaces each center by the \emph{same} quantity such that \refeq{underDeterminedP} is satisfied. This quantity, of course, will be the negative of the net center of mass displacement introduced by $\cvec{\Delta R}$ and is given by:
+\begin{equation}
+\svec{\Delta x}_{cm} = - \scmat{M} \cdot \cvec{\Delta R} \; .
+\end{equation}
+
+We can build $\cvec{P}$ from $\svec{\Delta x}_{cm}$ using \refeq{constructR} as follows:
+\begin{equation} \laeq{buildP}
+\cvec{P} = \left( \sum_{\alpha = 1}^{N} \trans{\scmat{C}}_{\alpha} \right) \cdot \svec{\Delta x}_{cm} \; .
+\end{equation}
+Defining the summed matrices as $\trans{\scmat{\mathbf{C}}}$,
+\begin{equation}\laeq{cComponents}
+\trans{\scmat{\mathbf{C}}}_{\alpha,1} = \svec{1} \quad , \quad \alpha = 1 \ldots N
+\end{equation}
+ we can write
+\begin{equation}
+\cvec{P} = - \trans{\scmat{\mathbf{C}}} \cdot \scmat{M} \cdot \cvec{\Delta R} \; .
+\end{equation}
+Further, defining
+\begin{equation} \laeq{bigMDefined}
+\mathbbm{M} = \trans{\scmat{\mathbf{C}}} \cdot \scmat{M} \; ,
+\end{equation}
+we can write
+\begin{equation}
+\cvec{P} = -\mathbbm{M} \cdot \cvec{\Delta R} \; .
+\end{equation}
+So the configuration space representation of $\cvec{\Delta R}$, which includes no center of mass translation is:
+\begin{equation}
+\cvec{\Delta R}^{\star} = \cvec{\Delta R} + \cvec{P} = \left( \mathbbm{1} - \mathbbm{M} \right) \cdot \cvec{\Delta R}
+\end{equation}
+
+The $dN \times dN$ matrix $\mathbbm{M}$ has a band structure defined by:
+\begin{equation}
+\mathbbm{M}_{\alpha, \beta} = \frac{m_{\beta}}{M_{total}} \svec{1} \quad , \quad \alpha,\beta = 1 \ldots N
+\end{equation}
+For instance, in three spatial dimensions, $d=3$, we have:
+\begin{equation}
+\mathbbm{M} = \frac{1}{M}
+\begin{bmatrix}
+m_1 &        &     & m_2 &        &     &        & m_N  &        &     \\
+    & m_1    &     &     & m_2    &     & \ldots &      &  m_N   &     \\
+    &        & m_1 &     &        & m_2 &        &      &        & m_N \\ 
+m_1 &        &     & m_2 &        &     &        &      &        &     \\
+    & m_1    &     &     & m_2    &     &        &      & \vdots &     \\
+    &        & m_1 &     &        & m_2 &        &      &        &     \\ 
+    &        &     &     &        &     &        &      &        &     \\
+    & \vdots &     &     & \vdots &     &        &      &        &     \\
+    &        &     &     &        &     &        &      &        &     \\ 
+\end{bmatrix}
+\end{equation}
+
+\paragraph{Armed with this result,} \hspace{-1em} we can re-write Wang and Stratt's (3.3) (\emph{cf.} eqs. \ref{eqn:computeEscapeStepVanilla} and \ref{eqn:computeEscapeStep}) as
+\begin{equation} \laeq{corrected33}
+\cvec{R}^{n+1} = \cvec{R}^{n} - \zeta \left( \mathbbm{1} - \mathbbm{M} \right) \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}}
+\end{equation}
+where
+\begin{equation}
+\zeta = \frac{V(\cvec{R}^{n})-E_L}{\left| \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \right|^2}
+\end{equation}
+as before.
+
+\subsection{Verification}
+As in section \ref{sec:escapeSteps}, we would like to verify that our expression (\refeq{corrected33}) conserves the center of mass. I proceed as before, using our new result.
+\begin{equation}
+\begin{aligned}
+\scmat{M} \cdot \cvec{R}^{n} &\stackrel{?}{=} \scmat{M} \cdot \cvec{R}^{n+1} \\
+\scmat{M} \cdot \cvec{R}^{n} &\stackrel{?}{=} \scmat{M} \cdot \left( \cvec{R}^{n} - \zeta \left( \mathbbm{1} - \mathbbm{M} \right) \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \right)
+\end{aligned}
+\end{equation}
+After, rearranging and canceling the common term as well as the scalar, we have:
+\begin{equation}
+\scmat{M} \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \stackrel{?}{=} \scmat{M} \cdot \mathbbm{M} \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}}
+\end{equation}
+Inserting the definition for $\mathbbm{M}$ (\refeq{bigMDefined}) gives:
+\begin{equation}
+\left( \scmat{M} \right) \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}} \stackrel{?}{=} 
+\left( \scmat{M} \cdot \trans{\scmat{\mathbf{C}}} \cdot \scmat{M} \right) \cdot \left. \cvec{\nabla}V\right|_{\cvec{R}^{n}}
+\end{equation}
+which can only hold if
+\begin{equation}
+\scmat{M} = \scmat{M} \cdot \trans{\scmat{\mathbf{C}}} \cdot \scmat{M} \; .
+\end{equation}
+We can see that this does indeed hold by inserting the component definitions of $\trans{\scmat{\mathbf{C}}}$ (\refeq{cComponents}) and $\scmat{M}$ (\refeq{mComponents}):
+\begin{equation}
+\begin{aligned}
+\left[ \scmat{M} \cdot \trans{\scmat{\mathbf{C}}} \right] \cdot \scmat{M} &= \left[ \sum_{\alpha}^{N} \scmat{M}_{1,\alpha} \trans{\scmat{\mathbf{C}}}_{\alpha,1} \right] \cdot \scmat{M}\\
+&= \left [\sum_{\alpha}^{N} \frac{m_{\alpha}}{M_{total}} \svec{1} \cdot \svec{1} \right] \cdot \scmat{M}\\
+&= \left[ \svec{1} \left( \frac{1}{M_{total}} \right) \left(\sum_{\alpha}^{N} m_{\alpha} \right) \right] \cdot \scmat{M}\\
+&= \left[ \svec{1} \right] \cdot \scmat{M} \\
+\scmat{M} \cdot \trans{\scmat{\mathbf{C}}} \cdot \scmat{M} &= \scmat{M}
+\end{aligned}
+\end{equation}
+
+\paragraph{What of the Newton-Raphson Root Search?} From the above, \refeq{corrected33} clearly preserves the center of mass. However, the point of (3.3) in \cite{wang:2007:geodesics} was originally a root search to ensure $V(\cvec{R}) = E_L$. Has this property been retained? Yes it has! We know this because the construction of $\mathbbm{M}$ began with $\cvec{P}$ in \refeq{buildP}. In which we specified displacing all centers by the same amount, $\svec{\Delta x}_{cm}$. This amounts to a net translation, under which our potential is invariant\footnote{If our problem contained a field and the potential was not translationally invariant or if our boundaries did not have the same center of mass, all of this would go out the window. In particular, we would not be able to rationalize there being something ``wrong'' with center of mass translation in the geodesic as we did in section \ref{sec:shouldConserveCM}.}.
+
+
+\section{Discussion}
+The results from section \ref{sec:enforceCM} allow us to modify Wang and Stratt's methods such that geodesics are guaranteed not to displace the center of mass while traversing configuration space. This is of particular importance to my work on formaldehyde, where the ratio of center of mass kinematic length to total length for roaming geodesics implementing the flawed method was of order 10\%.  While the correction is pleasing, the initial observation raises other, disquieting questions. It is likely that an analysis similar to that of section \ref{sec:shouldConserveCM}, would reveal that in addition to translation, rigid rotation spuriously increases the kinematic length. Given that our system is decidedly non-rigid, however, quantifying or even defining ``net'' rotation is a substantively more difficult problem, which I now leave without address. 
+
+\bibliographystyle{JAmChemSoc}
+\bibliography{../bibs/general,../bibs/roaming,../bibs/geodesics,../bibs/semiclassical,../bibs/self}
+
+\end{document}

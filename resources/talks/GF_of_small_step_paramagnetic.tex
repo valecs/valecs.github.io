@@ -1,0 +1,128 @@
+\documentclass[letterpaper,12pt]{article} 
+\title{Green Function for a small step in Paramagnetic spin model}
+\author{Yan Zhao} 
+\usepackage{amsmath} 
+\usepackage{amssymb} 
+\usepackage{url}
+\usepackage{pifont}
+
+
+\begin{document} 
+\maketitle 
+\textbf{Problem:}  
+
+N spins forming a 1-D spin chain and they act independently.
+
+$\sigma_i$ is the $i^\textsuperscript{th}$ spin and $\sigma_i$ can be 
+$\left\{
+  \begin{array}{lcr}
+     1& up\\
+     0& down
+  \end{array}
+  \right.$
+  
+The configuration of the system is 
+ $\underset{\sim}{\sigma}=(\sigma_i,\sigma_2 , \cdots ,\sigma_N) $ .
+ 
+Master equation
+\[
+\left.
+\begin{aligned}
+ \frac{d}{dt}P_t(\underset{\sim}{\sigma})&=- \underset{\underset{\sim}{\sigma}''}{\sum} W(\underset{\sim}{\sigma}\rightarrow\underset{\sim}{\sigma}'') P_t(\underset{\sim}{\sigma}) + \underset{\underset{\sim}{\sigma}'}{\sum} W( \underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma}) P_t(\underset{\sim}{\sigma}') \\
+ &=-\underset{\underset{\sim}{\sigma}'}{\sum}\underset{\underset{\sim}{\sigma}''}{\sum}W(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma}'') P_t(\underset{\sim}{\sigma}')\delta_{\underset{\sim}{\sigma}',\underset{\sim}{\sigma}} + \underset{\underset{\sim}{\sigma}'}{\sum} W( \underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma}) P_t(\underset{\sim}{\sigma}')\\
+ &=\underset{\underset{\sim}{\sigma}'}{\sum} \left( W( \underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma})-\delta_{\underset{\sim}{\sigma}',\underset{\sim}{\sigma}}\underset{\underset{\sim}{\sigma}''}{\sum}W(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma}'') \right) P_t(\underset{\sim}{\sigma}')\\
+ &=\underset{\underset{\sim}{\sigma}'}{\sum} L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})P_t(\underset{\sim}{\sigma}') 
+\end{aligned}
+\right. 
+\] 
+
+By definition, 
+\[
+W( \underset{\sim}{\sigma} \rightarrow \underset{\sim}{\sigma})=0 \label {1}\tag{1}
+\]
+
+and 
+\[
+W( \underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma})=\sum\limits_{i=1}^N W_i(\underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma}) \label {2}\tag{2}
+\]
+
+and 
+\[
+W_i(\underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma})=\left( c\alpha\delta_{\sigma_i 1}  \delta_{\sigma'_i 0} +(1-c)\alpha \delta_{\sigma_i 0}  \delta_{\sigma'_i 1} \right) \underset{j\neq i}{\prod} \delta_{\sigma_j \sigma'_j} \label {3}\tag{3}
+\]
+
+And we have
+ \[
+ L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})=W( \underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma})-\delta_{\underset{\sim}{\sigma}',\underset{\sim}{\sigma}}\underset{\underset{\sim}{\sigma}''}{\sum}W(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma}'')\label {4}\tag{4}
+ \]
+ 
+ Then we can substitute \eqref{2} and \eqref{3} into \eqref{4} , which will give us
+ 
+ \[
+ L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})=\sum\limits_{i=1}^N \left[ c\alpha \delta_{\sigma'_i 0} (\delta_{\sigma_i 1}-\delta_{\sigma_i \sigma'_i })+(1-c)\alpha \delta_{\sigma'_i 1}(\delta_{\sigma_i 0}-\delta_{\sigma_i \sigma'_i}) \right]  \underset{j \neq i}{\prod}\delta_{\sigma_i \sigma'_i}
+ \label{5} \tag{5}
+ \]
+
+Let's go back to the master equation, by setting $dt=\epsilon$
+
+\[
+\frac{P_{t+\epsilon}(\underset{\sim}{\sigma})-P_t(\underset{\sim}{\sigma})}{\epsilon}=\underset{\underset{\sim}{\sigma}'}{\sum} L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})P_t(\underset{\sim}{\sigma}')
+\]
+
+Then
+\[
+\left.
+\begin{aligned}
+P_{t+\epsilon}(\underset{\sim}{\sigma})&=P_t(\underset{\sim}{\sigma})+\underset{\underset{\sim}{\sigma}'}{\sum}\epsilon L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})P_t(\underset{\sim}{\sigma}')\\
+&=\underset{\underset{\sim}{\sigma}'}{\sum} \left[  \delta_{\underset{\sim}{\sigma} \underset{\sim}{\sigma}'}+\epsilon L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma}) \right] P_t(\underset{\sim}{\sigma}')
+\end{aligned}
+\right.
+\] 
+ 
+Compared with 
+\[
+P_{t+\epsilon}(\underset{\sim}{\sigma})=\underset{\underset{\sim}{\sigma}'}{\sum} G(\underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma} ; \epsilon)P_t(\underset{\sim}{\sigma}')
+\]
+
+So the green function for this small step $(t \rightarrow t+\epsilon )$  is
+\[
+\begin{aligned}
+ G(\underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma} ; \epsilon)&=\delta_{\underset{\sim}{\sigma} \underset{\sim}{\sigma}'}+\epsilon L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})\\ 
+ &=\sum\limits_{i=1}^N \frac{1}{N} \delta_{\sigma_i \sigma'_i} \underset{j \neq i}{\prod}\delta_{\sigma_i \sigma'_i} +\epsilon L(\underset{\sim}{\sigma}'\rightarrow\underset{\sim}{\sigma})\\
+ &=\sum\limits_{i=1}^N \left[ \frac{1}{N} \delta_{\sigma_i \sigma'_i} +c\epsilon\alpha \delta_{\sigma'_i 0} (\delta_{\sigma_i 1}-\delta_{\sigma_i \sigma'_i })+(1-c)\epsilon\alpha \delta_{\sigma'_i 1}(\delta_{\sigma_i 0}-\delta_{\sigma_i \sigma'_i})\right] \underset{j \neq i}{\prod}\delta_{\sigma_i \sigma'_i}
+\end{aligned}
+ \]
+
+If $a$ and $b$ are just $1$ or $0$, we can write down
+
+\[
+\delta_{ab}=1+2ab-a-b.
+\]
+
+By using this trick, we can simplify the green function. Finally, we will have
+
+\[
+\left.
+\begin{aligned}
+&G(\underset{\sim}{\sigma}' \rightarrow \underset{\sim}{\sigma} ; \epsilon)\\
+=\sum\limits_{i=1}^N& \left[ \left(\frac{1}{N}-c\epsilon\alpha \right) + \left( \frac{2}{N}-2\epsilon\alpha \right) \sigma_i\sigma'_i - \left( \frac{1}{N} - 2c\epsilon \alpha \right) \sigma_i - \left( \frac{1}{N}- \epsilon\alpha \right) \sigma'_i \right]  \\
+&\underset{j \neq i}{\prod} \left(1+2\sigma_i\sigma'_i-\sigma_i-\sigma'_i \right) \\
+=\sum\limits_{i=1}^N &(A+B\sigma_i\sigma'_i-C\sigma_i-D\sigma'_i) \underset{j \neq i}{\prod} (1+2\sigma_i\sigma'_i-\sigma_i-\sigma'_i)\\
+where\\
+&A=\frac{1}{N}-c\epsilon\alpha\\
+&B=\frac{2}{N}-2\epsilon\alpha\\
+&C=\frac{1}{N} - 2c\epsilon \alpha\\
+&D=\frac{1}{N}- \epsilon\alpha\\
+\end{aligned}
+\right.
+\]
+
+
+Now I am still trying to change the form of this green function so that I could easily calculate the green function for a given path. And probably I could use other tricks instead of $\delta_{ab}=1+2ab-a-b$. Please tell me if you have any ideas or questions, we can discuss and I really appreciate it!
+\bigskip
+
+\noindent\textbf{References}
+
+[1]  R. van Zon and J. Schofield, J. Chem. Phys. 122, 194502 (2005)
+
+\end{document}
