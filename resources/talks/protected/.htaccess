@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "Restricted to Stratt Group"
-AuthUserFile /home/httpd/html/grads/valecofershabica/resources/talks/protected/.htpassword
-Require valid-user
