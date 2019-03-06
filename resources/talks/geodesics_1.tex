@@ -1,0 +1,166 @@
+%\documentclass[letterpaper,12pt]{article}
+\documentclass[letterpaper]{tufte-handout}
+
+\usepackage{times}
+\usepackage[]{hyperref}
+%\usepackage[section]{placeins}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathrsfs} % formal script font; use \mathscr{...}
+\usepackage[titletoc]{appendix} % adds ``Appendix'' in TOC
+\usepackage{datetime} % gives \currenttime
+\usdate% keeps standard \LaTeX date format for \today
+\usepackage{gensymb}
+\usepackage{bbm}% for \mathbbm % blackboard bold
+\usepackage{mathtools} % gives \substack
+
+
+\title{Why Geodesics? A path integral leads the way.}
+\date{Modified: \today\ at \currenttime}
+\author{Vale Cofer-Shabica}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\;\textrm{\textbf{#1}}\,}
+%\newcommand{\mat}[1]{\mbox{\normalsize $\,\mathtt{#1}\,$}}
+%\newcommand{\mat}[1]{\,\mathtt{#1}\,}
+\newcommand{\trans}[1]{{#1}^{\mathsf{T}}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\renewcommand{\refeq}[1]{eq.~\ref{eqn:#1}}
+
+\newcommand{\notesym}{\textsuperscript{*}}
+
+\begin{document}
+\maketitle
+
+\newthought{A derivation and discussion} of Wang and Stratt's path-integral expression for the diffusion propagator, which suggests geodesics on energy landscapes should be interesting objects.
+
+\section{Introduction}
+We wish to understand the following equation (2.1) from Wang and Stratt's second paper of 2007~\cite[-3\baselineskip]{wang:2007:geodesics}:
+\begin{equation}
+G(\vec{R}_{0} \to \vec{R} , t) = \int_{\vec{R}_{0},0}^{\vec{R},t} \mathscr{D} [\vec{R}(\tau)]\exp\left[ -\frac{1}{4D} \int_{0}^{t} {\left(\frac{d\vec{R}}{d\tau} \right)}^{2} d\tau\right] \;,
+\end{equation}
+which gives the Green's function\sidenote[][]{In our usage here, the Green's function is the propagator, specifying the probability of transitioning from state $\vec{R}_0$ to $\vec{R}$ in time $t$.} for a system under free diffusion (no forces) as a path integral. From this point, the authors argue that the dynamics of chemical systems are well captured by the paths which are ``shortest''. This observation has  motivated much of the group's work since 2007.
+
+This document contains two parts: a derivation of the above expression and a note about how it implies \emph{shortest} paths. In future weeks, we will discuss the realization of these ideas within the context of a physical system.
+
+
+\section{Derivation}
+\emph{This section closely follows the first chapter of Weigel's excellent introduction to path integrals~\cite[-3\baselineskip]{wiegel:1986}.}  In the absence of external forces\sidenote[][]{
+  Studying free diffusion  allows us to treat complicated systems from another perspective. We \emph{could} solve the diffusion equation in the presence of a complicated potential, but this is neither easy nor transferable. Free diffusion is much more straight-forward. However, we still don't get a free lunch: the potential will impose stringent boundary conditions in a yet unspecified manner.
+}, diffusion is a process characterized by the following dynamical relation:
+\begin{equation}
+\frac{d}{dt} G(\vec{R} , t) = D \nabla^{2} G(\vec{R} , t) \; ,
+\end{equation}
+where $G(\vec{R} , t)$ is the probability of finding a system in configuration $\vec{R}$ at time $t$ and $D$ is the diffusion constant, which governs the intrinsic rate of diffusion.
+
+With the initial condition $G(\vec{R}, t = 0) = \delta(\vec{R}- \vec{R}_{0})$, one can find the solution for a Cartesian system of $\alpha$ degrees of freedom to be:
+\begin{equation} \label{eqn:gSoln}
+G(\vec{R}_{0} \rightarrow \vec{R} , t) = {(4\pi D t)}^{-\alpha/2}\exp\left[ -\frac{{(\vec{R} - \vec{R}_0)}^2}{4Dt}\right] \; ,
+\end{equation}
+as can be verified by substitution.
+
+\pagebreak
+
+Suppose we are interested in  a particular path\sidenote[][]{This may seem an odd question. Why are we creating more work if we have solved already the diffusion equation? The answer lies in the formal expression to which we arrive if we study the solution as a function of \emph{paths}.} between $\vec{R}_0$ and $\vec{R}$. We could represent such a path by discretizing it over $(N+1)$ bits of time, each of duration $\varepsilon$, such that: $(N+1)\varepsilon=t$. For notational ease, we define,
+\begin{align*}
+  t_{i}   &= \varepsilon \cdot i\\
+  \vec{R}_{i} &= \vec{R}\left( t_i \right) \; ,
+\end{align*}
+  giving the discrete time and system configuration along the path. We also have $t_{N+1} = t$. This procedure is illustrated in figure~\ref{fig:path}.
+
+\begin{figure}
+  \includegraphics{weigel1986}
+  \caption{\label{fig:path} Discretizing a Path. Note that while this figure traces the time evolution of a single spatial coordinate, paths of arbitrary dimension are amenable to this decomposition. \emph{Figure modified from Weigel.}}
+\end{figure}
+
+To compute the probability of tracing such a path, we rely on the independence of the probabilities of taking each such step. The probability of the path is then the probability of propagating from $\vec{R}_0$ to $\vec{R}_1$ in time $\varepsilon$ multiplied by the probability of propagating from $\vec{R}_1$ to $\vec{R}_2$ in time $\varepsilon$ and so on. By inserting \refeq{gSoln} for each step, we have:
+\begin{multline} \label{eqn:gDiscrete}
+G(\vec{R}_{0} \rightarrow \vec{R} , t ; \{\vec{R}_1, \vec{R}_2. \ldots \vec{R}_N\})  = \prod_{i=0}^{N} G(\vec{R}_{i} \rightarrow \vec{R}_{i+1}, \varepsilon) \\
+=  {\left[ {(4\pi D \varepsilon)}^{-\alpha/2} \right]}^{N+1} \exp\left[ - \sum_{i=0}^{N} \frac{{(\vec{R}_{i+1} - \vec{R}_i)}^2}{4D\varepsilon}\right] \; ,
+\end{multline}
+which gives the probability of diffusing from $\vec{R}_{0}$ to $\vec{R}$ in a time $t$ via the $N$ ordered points $\{\vec{R}_1, \vec{R}_2. \ldots \vec{R}_N\}$. We could recover our original expression (\refeq{gSoln}) by integrating\sidenote[][]{
+  Recall the Gaussian integral:
+  % \[
+  %   1 = \int_{-\infty}^{+\infty} dx \frac{1}{\sqrt{\pi \beta}}\exp \left[ \frac{{(x-a)}^2}{\beta}\right]
+  % \]
+  \[
+     \int_{-\infty}^{+\infty} dx \, e^{-ax^2} = \sqrt{\frac{\pi}{a}}
+  \]
+} \refeq{gDiscrete} over the domain of each $\vec{R}_{i}$:
+\begin{align}
+G(\vec{R}_{0} \rightarrow \vec{R} , t) &= \int d\vec{R}_1 \int d\vec{R}_2 \ldots \int d\vec{R}_N  G(\vec{R}_{0} \rightarrow \vec{R} , t ; \{\vec{R}_1, \vec{R}_2. \ldots \vec{R}_N\}) 
+\end{align}
+
+\pagebreak
+
+Suppose we increased $N$ until the path appeared smooth; in the continuous limit, $N \to \infty$ and $\varepsilon \to 0$. Focusing for the moment on the exponential, we can write\sidenote[][1\baselineskip]{
+  Using the definition of a derivative:
+  \[
+    \frac{df}{dt} = \lim_{\varepsilon \to 0} \frac{f(t+\varepsilon) - f(t)}{\varepsilon} \; .
+  \]
+  And the approximation for an integral:
+  \[
+    \lim_{N \to \infty} \sum_{i=0}^{N} f\left(a+i \Delta \tau \right) \Delta \tau \approx \int_a^b d\tau \, f(\tau) \; ,
+  \]
+  where $\Delta \tau = \frac{b-a}{N}$
+}:
+\begin{align}
+\lim_{\substack{\varepsilon \to 0 \\ N \to \infty}} &\exp\left[ - \sum_{i=0}^{N} \frac{(\vec{R}_{i+1} - \vec{R}_i)^2}{4D\varepsilon}\right] =\\ 
+\lim_{\substack{\varepsilon \to 0 \\ N \to \infty}}  &\exp\left[ - \frac{1}{4D}\sum_{i=0}^{N} {\left( \frac{\vec{R}_{i+1} - \vec{R}_i}{\varepsilon} \right)}^{2} \varepsilon \right] =\\
+&\exp\left[ - \frac{1}{4D} \int_{0}^{t} \left(\frac{d\vec{R}}{d\tau}\right)^{2} d\tau\right] \; ,
+\end{align}
+where $\vec{R}(\tau)$ is a continuous function on $[0,t]$ specifying the path. Now we can write:
+\begin{equation}
+\begin{aligned}
+G(\vec{R}_{0} \rightarrow \vec{R} , t) &=\\
+\lim_{\substack{\varepsilon \to 0 \\ N \to \infty}} {\left[ (4\pi D \varepsilon)^{-\alpha/2} \right]}^{N+1} &\int d\vec{R}_1 \int d\vec{R}_2 \ldots \int d\vec{R}_N  \exp\left[ - \frac{1}{4D} \int_{0}^{t} \left(\frac{d\vec{R}}{d\tau}\right)^{2} d\tau\right]
+\end{aligned}
+\end{equation}
+To express this more compactly, we define the following operator\sidenote[][]{\emph{Nota bene}, this ``operator'' is really just notational shorthand for the procedure we followed to arrive here. Take care that any subsequent manipulations respect with the discretization---they must!}:
+\begin{equation}
+\int_{\vec{R}_{0},0}^{\vec{R},t} \mathscr{D}[\vec{R}(\tau)] \equiv \lim_{\substack{\varepsilon \to 0 \\ N \to \infty}} (4\pi D \varepsilon)^{-\alpha(N+1)/2} \int d\vec{R}_1 \int d\vec{R}_2 \ldots \int d\vec{R}_N \; ,
+\end{equation}
+which explicitly specifies the boundary values: $\vec{R}_{0}$ at $t=0$ and $\vec{R}$ at time $t$. This is a path integral. With this notation in hand, we arrive at our original equation:
+\begin{equation} \label{eqn:gFinal}
+G(\vec{R}_{0} \rightarrow \vec{R} , t) = \int_{\vec{R}_{0},0}^{\vec{R},t} \mathscr{D} [\vec{R}(\tau)]\exp\left[ -\frac{1}{4D} \int_{0}^{t} {\left(\frac{d\vec{R}}{d\tau} \right)}^{2} d\tau\right] \;,
+\end{equation}
+which expresses the diffusion propagator as an integral over the space of all possible \emph{paths} connecting the boundary values.
+
+From this leaping point, Wang and Stratt observe that when diffusion is slow, $D$ is small and therefore the paths that will dominate \emph{must} minimize the integral within the exponential\sidenote[][-4\baselineskip]{That is, the dominant paths will obey the classical mechanical principle of least action:
+  \[
+    \delta S \left[ \vec{R}(\tau)\right] = 0, \quad S \left[ \vec{R}(\tau)\right] = \int d\tau \left( 2 T\right) .
+  \]
+  From here it is a simple extension to systems with unequal masses and/or non-Cartesian bases.
+}.
+
+\section{Why Shortest?}
+In their paper, Wang and Stratt argue that \refeq{gFinal} implies that the trajectories which contribute most to the path integral are those with the shortest length. However, \refeq{gFinal} contains no expression for the length.  The key observation is the following: the extremization of any quantity of the form:
+\begin{equation}
+I = \int d\tau f(\tau)
+\end{equation}
+can also be effected by extremizing\sidenote[][]{Consider the chain rule with the variational derivative.}: 
+\begin{equation}
+I' = \int d\tau H\left[f(\tau)\right]
+\end{equation}
+where $H[x]$ is a strictly positive function with non-negative derivative, defined on the range of $f(\tau)$. Thus, minimizing
+\begin{equation}
+\int_{0}^{t} d\tau {\left(\frac{d\vec{R}}{d\tau} \right)}^{2}
+\end{equation}
+can be achieved by minimizing\sidenote[][]{Take $H[x] = \sqrt{x}$.}
+\begin{equation} \label{eqn:length}
+\int_{0}^{t} d\tau \sqrt{{\left(\frac{d\vec{R}}{d\tau} \right)}^{2}} \; .
+\end{equation}
+Bringing the differential into the root, \refeq{length} reduces to
+\begin{equation}
+\int_{0}^{t} \sqrt{d\vec{R} \cdot d\vec{R}} = \int_{0}^{t} \norm{d\vec{R}} \; ,
+\end{equation}
+which is clearly the length of the path.
+
+\section{Conclusion}
+We have derived an expression which seems to imply the dynamics of slow diffusion is dominated by the shortest (most efficient) paths though configuration space. We have not yet specified the nature of the boundary conditions in this space nor do we yet have any machinery to construct such paths. We will take up these topics at our next meeting.
+
+\bibliographystyle{abbrv}
+\bibliography{../bibs/general,../bibs/roaming,../bibs/geodesics,../bibs/semiclassical,../bibs/self}
+
+\end{document}

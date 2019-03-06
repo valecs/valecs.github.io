@@ -1,0 +1,140 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage[section]{placeins}
+
+
+\begin{document}
+
+\title{Path Integrals in Polar and Spherical coordinates}
+\author{Layne Frechette}
+\date{October 2014}
+\maketitle
+
+\section{Background}
+
+As Vale showed in an earlier group meeting presentation [1], the Green's function for propagating from one point in Cartesian coordinates to another is given by:
+
+\[
+G(\textbf{R}_0 \rightarrow \textbf{R}, t) = \int_{\textbf{R}_0, 0}^{\textbf{R}, t}\mathcal{D}[\textbf{R}(\tau)]\exp\left[-\frac{1}{4D}\int_0^t \left(\frac{d\textbf{R}}{d\tau}\right)^2d\tau\right]
+\]
+
+Looking at this expression, we see that for small $D$, the Green's function will be maximized when the integral inside the exponential is minimized. It was argued, both in Vale's presentation and in Wang and Stratt's paper [2], that the minimization of the integral is equivalent to the minimization of the path taken. That is, \textit{geodesic} paths make the largest contributions to the Green's function.\\
+
+What if the system is not Cartesian? What if, for example, we wished to find G for the case of a unit vector diffusing on the surface of a sphere? Does the notion of a rotational geodesic arise as naturally from this Green's function as it does in the Cartesian case? To answer these questions, let us examine the cases of path integrals in polar and spherical coordinates.
+
+\section{Polar coordinates}
+Consider first the case of a two-dimensional system. This derivation will follow Edwards and Gulyaev [3]. I am going to use a general notation for the constants, to simplify the expressions: let $A$ be normalization constant in front of the functional integral, and let $\alpha$ be a constant in the exponential. If we write down the path integral in cartesian coordinates, $\vec{r}=(x,y)$:
+
+\[
+G(\vec{r}_0 \rightarrow \vec{r}, t) = A\int_{\vec{r}_0, 0}^{\vec{r}, t}\mathcal{D}[\vec{r}(\tau)]\exp\left[-\alpha\int_0^t \left(\frac{d\vec{r}}{d\tau}\right)^2d\tau\right]
+\]
+
+Let us write this in discrete form. Let $\vec{r}=\vec{r}_n$, so that we divide each path into $n$ subintervals, and let $t=n\epsilon$.
+
+\begin{align*}
+&G(\vec{r}_0 \rightarrow \vec{r}, t) = \\
+&\lim_{\substack{n\rightarrow\infty\\ \epsilon \rightarrow 0}} A_n\int_{-\infty}^{\infty}\cdots\int_{-\infty}^{\infty}\prod_{j=1}^{n-1} dx_j dy_j \exp{\left[-\alpha\sum_{j=1}^{n}\left(\frac{x_j-x_{j-1}}{\epsilon}\right)^2\epsilon -\alpha \sum_{j=1}^{n}\left(\frac{y_j-y_{j-1}}{\epsilon}\right)^2\epsilon\right]} \\
+&= \lim_{\substack{N\rightarrow\infty\\ \epsilon \rightarrow 0}} A_n\int_{-\infty}^{\infty}\cdots\int_{-\infty}^{\infty}\prod_{j=1}^{n-1} dx_j dy_j \exp{\left[-\alpha\sum_{j=1}^{n}\frac{(x_j-x_{j-1})^2}{\epsilon} - \alpha\sum_{j=1}^{n}\frac{(y_j-y_{j-1})^2}{\epsilon}\right]}
+\end{align*}
+
+Now, letting $r_j = \sqrt{x_j^2+y_j^2}, \;\theta_j = \arctan{(y_j/x_j)}$,  $G$ becomes:
+
+\begin{align*}
+\lim_{\substack{N\rightarrow\infty\\ \epsilon \rightarrow 0}} A_n\int_{0}^{\infty}\cdots\int_{0}^{2\pi}\prod_{j=1}^{n-1} r_j dr_j d\theta_j \exp{\left[-\frac{\alpha}{\epsilon}\sum_{j=1}^{n}(r_j^2+r_{j-1}^2-2r_jr_{j-1}\cos(\theta_j-\theta_{j-1}))\right]}
+\end{align*}
+
+One might be tempted, at this point, to make the approximation:
+\[
+\cos(\theta_j-\theta_{j-1}) \approx 1-\frac{1}{2}(\theta_j - \theta_{j-1})^2
+\]
+However, this will not yield the correct final expression for the path integral! Changes in Cartesian coordinates are of order $\epsilon$; for example, a change in the Cartesian coordinate $x$, $x_j-x_{j-1}$, is associated with a change in time $\epsilon$. However, the nonlinear transformation of Cartesian variables into polar variables changes this; in order to make an approximation with order $\epsilon$ in polar coordinates, we have to carry out higher-order terms. In this case, we would at least need to carry the expansion out to order $(\theta_j-\theta_{j-1})^4$. If $\cos(\theta_j-\theta_{j-1})$ were approximated only to second order in $\theta_j-\theta_{j-1}$, a term of $-(1/4)/r^2$ in the exponential in the final answer would be misssing.\\
+
+To proceed, we could expand $\cos(\theta_j-\theta_{j-1})$ to fourth order, but another method is more convenient. Write $G$ as a Fourier series:
+\begin{align*}
+G(\vec{r_0}\rightarrow{\vec{r}}, t) &= \sum_{m=-\infty}^{\infty}\exp[im(\theta-\theta_0)]\,\mathcal{G}_m(\vec{r_0}\rightarrow{\vec{r}}, t)\\
+\mathcal{G}_m &= \frac{1}{2\pi}\int_0^{2\pi}d(\theta-\theta_0)\exp[-im(\theta-\theta_0)]G\\
+\end{align*}
+Now, using the fact that $\theta - \theta_0$ = $(\theta_{n+1}-\theta_n)+(\theta_n-\theta_{n-1})+\cdots+(\theta_1-\theta_0)$, we can combine the Fourier transform exponential term(s) with the exponential terms in $G$, and perform the angular integrations. These integrations yield modified Bessel functions:
+\[
+2\pi I_m\left(\frac{2\alpha r_jr_{j-1}}{\epsilon}\right)
+\]
+
+At this point we may finally make an approximation: in the limit as $\epsilon$ goes to 0, the argument of the Bessel function goes to infinity:
+
+\[
+I_m(x) \substack{\longrightarrow\\ x \rightarrow \infty} \sqrt{\frac{2\pi}{x}}\exp\left[x-\frac{m^2-1/4}{2x}+\mathcal{O}(1/x^2)\right]
+\]
+
+Apparently, terms of order $\mathcal{O}(1/x^2)$ or higher only alter the value of the integral to order $\epsilon$, so we can now take $\epsilon$ to be small (which we couldn't do earlier.) Finally, we can take the limit as $\epsilon\rightarrow 0 $ and $N\rightarrow \infty$. I will omit the details, which can be found in [3]. The final answer is:
+\begin{align*}
+\mathcal{G}_m=\frac{A}{\sqrt{2\pi r r_0}}\int \mathcal{D}[\vec{r}(\tau)]\exp\left[-\alpha\int_0^t\left(\dot{r}^2+\frac{m^2-1/4}{r^2}\right)d\tau\right]
+\end{align*}
+
+If we restrict the motion to a circle of radius 1,
+\begin{align*}
+\mathcal{G}_m=\frac{A}{\sqrt{2\pi}}\int \mathcal{D}[\theta(\tau)]\exp\left[-\alpha\int_0^t\left(m^2-1/4\right)d\tau\right]
+\end{align*}
+
+If we had used the approximation $\epsilon$ small too early, we would have missed the factor of $1/r^2$.
+
+\section{Spherical coordinates}
+The approach to deriving the path integral in spherical coordinates is very similar to that of polar coordinates. This time, we expand $G$ in terms of spherical harmonics rather than a Fourier series:
+
+\begin{align*}
+G(\vec{r}_0\rightarrow \vec{r}, t) = \sum_{l=0}^{\infty}\sum_{m=-l}^l\mathcal{G}_l^m Y_l^m(\theta, \phi)Y_l^{m*}(\theta_0, \phi_0)
+\end{align*}
+
+I will not go through the full derivation of the $\mathcal{G}_l^m$ here, but it is similar to the derivation of the $\mathcal{G}_m$ in polar coordinates. The answer is:
+\begin{align*}
+\mathcal{G}_l^m = \frac{A}{rr_0}\int \mathcal{D}[\vec{r}(\tau)]\exp\left[-\alpha\int_0^t\left(\dot{r}^2 + \frac{l(l+1)}{r^2}d\tau\right)\right]
+\end{align*}
+Note the similarity of the exponential to that in polar coordinates. \\
+
+Peak and Inomata [4] give a rather nicer derivation of the Green's function in spherical coordinates than Edwards and Gulyaev. They also point out that $\mathcal{G}_l^m=\mathcal{G}_l^m(r_0\rightarrow r, t)$, so that the total Green's function is a sum of products of a radial propagator $\mathcal{G}_l^m$ with angular contributions $Y, Y^*$.\\
+
+Letting $r=1$, so that we are on the surface of a sphere, $\mathcal{G}_l^m$ becomes:
+\begin{align*}
+\mathcal{G}_l^m = A\int \mathcal{D}[\hat{\Omega}(\tau)]\exp\left[-\alpha\int_0^tl(l+1)d\tau\right]
+\end{align*}
+
+Where $\hat{\Omega}(t)$ denotes the path of a unit vector on the sphere. But the integral in the exponential is trivial:
+\[
+\int_0^tl(l+1)d\tau = l(l+1)t
+\]
+So,
+\begin{align*}
+\mathcal{G}_l^m &= A\int \mathcal{D}[\hat{\Omega}(\tau)]\exp\left[-\alpha l(l+1) t\right] \\
+&=\exp\left(-\alpha l(l+1) t\right) \left( A\int \mathcal{D}[\hat{\Omega}(\tau)]\right)\\
+&= \exp\left[-\alpha l(l+1) t\right](1)\\
+&= \exp\left[-\alpha l(l+1) t\right]
+\end{align*}
+
+Now we can write:
+\begin{align*}
+G(\hat{\Omega}_0\rightarrow \hat{\Omega}, t) = \sum_{l=0}^\infty \sum_{m=-l}^l e^{-\alpha l(l+1)t}Y_l^m(\theta, \phi) Y_l^{m*}(\theta_0, \phi_0)
+\end{align*}
+
+Now we recognize what $\alpha$ is for this problem - it is the rotational diffusion coefficient, $D_R$. Using the addition theorem of spherical harmonics, we can make one final simplification:
+\[
+P_l(\hat{\Omega}\cdot\hat{\Omega_0}) =\sum_{m=-l}^l \frac{4\pi}{2l+1}Y_l^m(\theta, \phi)Y_l^{m*}(\theta_0, \phi_0)
+\]
+So,
+\begin{align*}
+G(\hat{\Omega}_0\rightarrow \hat{\Omega}, t) = \sum_{l=0}^{\infty}\frac{2l+1}{4\pi}P_l(\hat{\Omega}\cdot\hat{\Omega}_0)e^{-l(l+1)D_Rt}
+\end{align*}
+
+\section{Conclusion and future work}
+The final expression for the  Green's function involves a sum over angular momentum quantum numbers. However, we would like to be able to perform integrals rather than sums - i.e., to come up with a \textit{classical} expression for $G$. We are working on finding a way to write down the path integral that allows us to do this. \\
+
+In terms of future work, we would like to be able to derive an expression for the Green's function for diffusion on a sphere when there are barriers on the sphere, as was done with barriers in the Cartesian case. 
+\section{References}
+1. Cofer-Shabica, Vale. ``Path Integral Motivation for the Geodesic View.'' Stratt group meeting, 27 June 2014. \\
+
+\noindent2. Wang, C.; Stratt, R. M. The Journal of Chemical Physics, 2007, 127, 224504.\\
+
+\noindent3. Edwards, S.F. and Gulyaev, Y.V. Proceedings of the Royal Society London A, 1964, v. 279, no. 1377.\\
+
+\noindent4. Peak, D. and Inomata, A. The Journal of Mathematical Physics, 1969, v. 10, no. 8.
+\end{document}
